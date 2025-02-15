@@ -75,7 +75,7 @@ def generate_survey(user_input: str):
 async def generate_survey_endpoint(request: SurveyRequest):
     return generate_survey(request.input_text)
 
-# Ejecutar el servidor con uvicorn (en entorno de producción)
+# Ejecutar el servidor con uvicorn (en entorno de producción
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))  # Usar el puerto proporcionado por Render
     uvicorn.run(app, host="0.0.0.0", port=port)
