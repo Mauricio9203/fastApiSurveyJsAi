@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware  # Importar CORSMiddleware
 from pydantic import BaseModel
 import google.generativeai as genai
 import json
@@ -14,6 +15,20 @@ model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Inicializar FastAPI
 app = FastAPI()
+
+# Configurar CORS
+origins = [
+    "http://localhost:5173",  # Asegúrate de agregar tu dominio de frontend aquí
+    "https://yourfrontenddomain.com",  # Si tu frontend está en producción, agrega ese dominio aquí
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Permite solicitudes desde estos orígenes
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos los métodos HTTP (GET, POST, etc.)
+    allow_headers=["*"],  # Permite todos los encabezados
+)
 
 # Definir el esquema de entrada
 class SurveyRequest(BaseModel):
@@ -62,5 +77,5 @@ async def generate_survey_endpoint(request: SurveyRequest):
 
 # Ejecutar el servidor con uvicorn (en entorno de producción)
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))  # Usar el puerto proporcionado por Railway o 8000 por defecto
+    port = int(os.environ.get("PORT", 8000))  # Usar el puerto proporcionado por Render
     uvicorn.run(app, host="0.0.0.0", port=port)
