@@ -1,0 +1,7 @@
+# Ignorar entorno virtual
+venv/
+fastapi-env/
+__pycache__/
+
+# Archivos sensibles
+.env
