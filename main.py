@@ -3,6 +3,8 @@ from pydantic import BaseModel
 import google.generativeai as genai
 import json
 import re
+import os
+import uvicorn
 
 # Configurar la API key de Gemini
 genai.configure(api_key="AIzaSyBgGXl6kjQP_ruptOFecqWalKB_5cIEzzA")
@@ -22,7 +24,6 @@ def generate_survey(user_input: str):
     """
     Generates a JSON survey based on the user's request.
     """
-
     prompt = f"""
     Generate a valid JSON for a SurveyJS survey based on the following user request:
     "{user_input}"
@@ -58,3 +59,8 @@ def generate_survey(user_input: str):
 @app.post("/generate-survey/")
 async def generate_survey_endpoint(request: SurveyRequest):
     return generate_survey(request.input_text)
+
+# Ejecutar el servidor con uvicorn (en entorno de producción)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))  # Usar el puerto proporcionado por Railway o 8000 por defecto
+    uvicorn.run(app, host="0.0.0.0", port=port)
