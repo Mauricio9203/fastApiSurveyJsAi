@@ -19,6 +19,7 @@ app = FastAPI()
 # Configurar CORS
 origins = [
     "http://localhost:5173",  # Asegúrate de agregar tu dominio de frontend aquí
+    "http://localhost:5174",
     "https://mauricio9203.github.io",  # Si tu frontend está en producción, agrega ese dominio aquí
 ]
 
